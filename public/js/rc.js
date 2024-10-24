@@ -2184,7 +2184,7 @@ const instantMode = false;
         this.renderPass();
       });
       this.sunAngleSlider.addEventListener("input", () => {
-        this.rcUniforms.sunAngle = this.sunAngleSlider;
+        this.rcUniforms.sunAngle = this.sunAngleSlider.value;
         this.renderPass();
       });
       super.load();

@@ -1804,6 +1804,7 @@ const instantMode = false;
         id: "additional-controls-container", name: "Base Ray Count", onUpdate: (value) => {
           this.rcUniforms.baseRayCount = Math.pow(4.0, value);
           this.baseRayCount = Math.pow(4.0, value);
+          this.initializeParameters();
           this.renderPass();
           return Math.pow(4.0, value);
         },
@@ -1959,7 +1960,7 @@ const instantMode = false;
         this.renderWidth * this.renderWidth + this.renderHeight * this.renderHeight
       );
       this.radianceCascades = Math.ceil(
-        Math.log(angularSize) / Math.log(4)
+        Math.log(angularSize) / Math.log(this.baseRayCount)
       ) + 1.0;
       this.basePixelsBetweenProbes = this.rawBasePixelsBetweenProbes;
       this.radianceInterval = 1.0;

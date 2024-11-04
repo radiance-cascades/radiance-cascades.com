@@ -383,7 +383,9 @@ const instantMode = false;
     div.appendChild(input);
     div.appendChild(span);
   
-    input.onUpdate = onUpdate;
+    input.onUpdate = (...args) => {
+      input.setSpan(`${onUpdate(...args)}`);
+    };
     if (initialSpanValue != null) {
       input.setSpan(initialSpanValue);
     }
@@ -1962,6 +1964,28 @@ const instantMode = false;
       this.radianceCascades = Math.ceil(
         Math.log(angularSize) / Math.log(this.baseRayCount)
       ) + 1.0;
+
+      if (this.lastLayerSlider) {
+        const wasMax = parseInt(this.lastLayerSlider.max) === parseInt(this.lastLayerSlider.value);
+        this.lastLayerSlider.max = this.radianceCascades;
+        let newValue = Math.min(parseInt(this.lastLayerSlider.value), this.radianceCascades);
+        if (wasMax) {
+          newValue = this.radianceCascades;
+        }
+        this.lastLayerSlider.value = newValue.toString();
+        this.lastLayerSlider.onUpdate(newValue);
+      }
+      if (this.firstLayerSlider) {
+        const wasMax = parseInt(this.firstLayerSlider.max) === parseInt(this.firstLayerSlider.value);
+        this.firstLayerSlider.max = this.radianceCascades;
+        let newValue = Math.min(parseInt(this.firstLayerSlider.value), this.radianceCascades);
+        if (wasMax) {
+          newValue = this.radianceCascades;
+        }
+        this.firstLayerSlider.value = newValue.toString();
+        this.firstLayerSlider.onUpdate(newValue);
+      }
+
       this.basePixelsBetweenProbes = this.rawBasePixelsBetweenProbes;
       this.radianceInterval = 1.0;
   
